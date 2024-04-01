@@ -71,7 +71,7 @@ def run():
     if platform.system() == 'Linux':
         os.system('oschmod 755 msipl_installer.py')
         os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --clear')
-        os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert ../msipl.bin')
+        os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert msipl.bin')
         disk = var.get() + '1'
         get_mountpoint = subprocess.Popen(f"lsblk | awk '/{disk}/ {{print $7}}'", shell=True, stdout=subprocess.PIPE)
         get_mountpoint = str(get_mountpoint.stdout.read().decode().rstrip()) + "/TM/"
@@ -82,7 +82,7 @@ def run():
     else:
         os.system('oschmod 755 msipl_installer.py')
         os.system(f'sudo python3 .\\msipl_installer.py --devname {var.get()} --clear')
-        os.system('python3 .\\msipl_installer.py --devname {var.get()} --insert ..\\msipl.bin')
+        os.system(f'python3 .\\msipl_installer.py --devname {var.get()} --insert msipl.bin')
     b['text'] = "DONE!"
     x['state'] = "normal"
 
