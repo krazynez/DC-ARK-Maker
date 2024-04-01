@@ -23,6 +23,6 @@
 
 * Draan (msipl_installer)
 
-* Sony for provideding 6.61 OFW files ( still ;-) ) 
+* Sony for providing 6.61 OFW files ( still ;-) ) 
 
 * Testers that are going to be helping me (will append when done)
