@@ -58,12 +58,12 @@ def run():
 
     if platform.system() == 'Linux':
         os.system('./pspdecrypt -e 661.PBP')
-        shutil.copytree("661/F0", "../TM/DCARK", dirs_exist_ok=True)
-        shutil.copytree("661/F1", "../TM/DCARK", dirs_exist_ok=True)
+        shutil.copytree("661/F0", "TM/DCARK", dirs_exist_ok=True)
+        shutil.copytree("661/F1", "TM/DCARK", dirs_exist_ok=True)
     else:
         os.system('.\\pspdecrypt.exe -e 661.PBP')
-        shutil.copytree("661\\F0\\", "..\\TM\\DCARK\\", dirs_exist_ok=True)
-        shutil.copytree("661\\F1\\", "..\\TM\\DCARK\\", dirs_exist_ok=True)
+        shutil.copytree("661\\F0\\", "TM\\DCARK\\", dirs_exist_ok=True)
+        shutil.copytree("661\\F1\\", "TM\\DCARK\\", dirs_exist_ok=True)
 
     # Download msipl_installer from Draan
     wget.download('https://raw.githubusercontent.com/draanPSP/msipl_installer/main/msipl_installer.py')
@@ -77,7 +77,7 @@ def run():
         get_mountpoint = str(get_mountpoint.stdout.read().decode().rstrip()) + "/TM/"
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
-        shutil.copytree("../TM", get_mountpoint, dirs_exist_ok=True)
+        shutil.copytree("TM", get_mountpoint, dirs_exist_ok=True)
         status.config(fg='green', text="DONE!")
     else:
         os.system('oschmod 755 msipl_installer.py')
