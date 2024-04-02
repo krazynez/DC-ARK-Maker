@@ -136,7 +136,7 @@ def run() -> None:
 
     cleanup()
 
-if platform.systems() == 'Linux' or platform.systems() == 'Darwin':
+if platform.system() == 'Linux' or platform.system() == 'Darwin':
     if os.geteuid() != 0:
         print('\nSorry this needs to run as root/admin!\n')
         sys.exit(1)
