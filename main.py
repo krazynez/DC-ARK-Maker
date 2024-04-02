@@ -18,6 +18,7 @@ if platform.system().lower() != 'linux' and platform.system().lower() != 'window
 
 possible_drive = ['-']
 windows_disk_letter = {}
+deviceID = {}
 m=tk.Tk()
 m.title('DC-ARK Maker')
 
@@ -31,6 +32,8 @@ if platform.system().lower() != 'linux' and platform.system().lower() != 'darwin
         if drive.MediaType == 'Removable Media':
             possible_drive.append('disk'+str(drive.Index))
             windows_disk_letter[f'disk{str(drive.Index)}'] = drive.caption
+            deviceID[f'disk{str(drive.Index)}'] = drive.DeviceID
+
 elif platform.system().lower() == 'linux':
     out = subprocess.Popen(["lsblk | awk '{if ($3 == 1 && $1 ~ /^[a-zA-Z]+$/) {print $1}}'"], shell=True, stdout=subprocess.PIPE)
     out = out.stdout.read().decode().splitlines()
@@ -127,8 +130,8 @@ def run() -> None:
         status.config(fg='green', text="DONE!")
     else:
         os.system('oschmod 755 msipl_installer.py')
-        os.system(f'python3 .\\msipl_installer.py --devname {var.get()} --clear')
-        os.system(f'python3 .\\msipl_installer.py --devname {var.get()} --insert msipl.bin')
+        os.system(f'python3 .\\msipl_installer.py --devname {deviceID[var.get()]} --clear')
+        os.system(f'python3 .\\msipl_installer.py --devname {deviceID[var.get()]} --insert msipl.bin')
         get_mountpoint = windows_disk_letter[var.get()] + "\\TM\\"
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
