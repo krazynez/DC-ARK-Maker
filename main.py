@@ -132,7 +132,7 @@ def run() -> None:
         os.system('oschmod 755 msipl_installer.py')
         os.system(f'python3 .\\msipl_installer.py --pdisk {deviceID[var.get()]} --clear')
         os.system(f'python3 .\\msipl_installer.py --pdisk {deviceID[var.get()]} --insert msipl.bin')
-        get_mountpoint = windows_disk_letter[var.get()] + "\\TM\\"
+        get_mountpoint = windows_disk_letter[var.get()[-1]] + "\\TM\\"
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
         shutil.copytree("TM", f"'{get_mountpoint}'", dirs_exist_ok=True)
