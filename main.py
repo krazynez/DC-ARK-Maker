@@ -5,6 +5,7 @@ import platform
 import os
 import time
 import sys
+import ctypes
 import glob
 import subprocess
 import shutil
@@ -135,9 +136,15 @@ def run() -> None:
 
     cleanup()
 
-if os.geteuid() != 0:
-    print('\nSorry this needs to run as root/admin!\n')
-    sys.exit(1)
+if platform.systems() == 'Linux' or platform.systems() == 'Darwin':
+    if os.geteuid() != 0:
+        print('\nSorry this needs to run as root/admin!\n')
+        sys.exit(1)
+else:
+    if ctypes.windll.shell32.IsUserAnAdmin() != 1:
+        print('\nSorry this needs to run as root/admin!\n')
+        sys.exit(1)
+
 
 # Setup
 m.minsize(320, 120)
