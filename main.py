@@ -7,6 +7,7 @@ import time
 import sys
 import ctypes
 import glob
+import requests
 import subprocess
 import shutil
 from zipfile import ZipFile
@@ -28,7 +29,7 @@ if platform.system().lower() != 'linux' and platform.system().lower() != 'darwin
     c = wmi.WMI()
     for drive in c.Win32_DiskDrive():
         if drive.MediaType == 'Removable Media':
-            possible_drive.append('disk'+drive.Index)
+            possible_drive.append('disk'+str(drive.Index))
             windows_disk_letter.append(drive.caption)
 elif platform.system().lower() == 'linux':
     out = subprocess.Popen(["lsblk | awk '{if ($3 == 1 && $1 ~ /^[a-zA-Z]+$/) {print $1}}'"], shell=True, stdout=subprocess.PIPE)
@@ -68,7 +69,11 @@ def run() -> None:
         os.system('oschmod 755 pspdecrypt')
         x['state'] = "normal"
     elif platform.system() == 'Windows':
-        wget.download('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-windows.zip')
+        #os.system('wget --no-check-certificate https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-windows.zip')
+        #wget.download('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-windows.zip')
+        resp = request.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-windows.zip')
+        with open('pspdecrypt-1.0-windows.zip', 'wb') as f:
+            f.write(resp.content)
         with ZipFile('pspdecrypt-1.0-windows.zip', 'r') as zObject:
             zObject.extractall(path=f'{os.getcwd()}\\')
         os.system('oschmod 755 pspdecrypt.exe')
