@@ -26,9 +26,9 @@ var.set(possible_drive[0])
 if platform.system().lower() != 'linux' and platform.system().lower() != 'darwin':
     import wmi
     c = wmi.WMI()
-    for drive in c.Win32_LogicalDisk():
-        if drive.DriveType == 2:
-            possible_drive.append(drive)
+    for drive in c.Win32_DiskDrive():
+        if drive.MediaType == 'Removable Media':
+            possible_drive.append('disk'+drive.Index)
             windows_disk_letter.append(drive.caption)
 elif platform.system().lower() == 'linux':
     out = subprocess.Popen(["lsblk | awk '{if ($3 == 1 && $1 ~ /^[a-zA-Z]+$/) {print $1}}'"], shell=True, stdout=subprocess.PIPE)
