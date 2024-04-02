@@ -27,12 +27,16 @@ var.set(possible_drive[0])
 
 if platform.system().lower() != 'linux' and platform.system().lower() != 'darwin':
     import wmi
+    import psutil
     c = wmi.WMI()
     for drive in c.Win32_DiskDrive():
         if drive.MediaType == 'Removable Media':
             possible_drive.append('disk'+str(drive.Index))
-            windows_disk_letter[f'disk{str(drive.Index)}'] = drive.caption
             deviceID[f'disk{str(drive.Index)}'] = drive.DeviceID
+        for part in psutil.disk_partitions():
+            if 'removable' in psutil.disk_partitions():
+                windows_disk_letter[f'disk{str(drive.Index)}'] = part.mountpoint.split(':')[0])
+
 
 elif platform.system().lower() == 'linux':
     out = subprocess.Popen(["lsblk | awk '{if ($3 == 1 && $1 ~ /^[a-zA-Z]+$/) {print $1}}'"], shell=True, stdout=subprocess.PIPE)
@@ -72,8 +76,6 @@ def run() -> None:
         os.system('oschmod 755 pspdecrypt')
         x['state'] = "normal"
     elif platform.system() == 'Windows':
-        #os.system('wget --no-check-certificate https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-windows.zip')
-        #wget.download('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-windows.zip')
         resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-windows.zip')
         with open('pspdecrypt-1.0-windows.zip', 'wb') as f:
             f.write(resp.content)
@@ -130,12 +132,12 @@ def run() -> None:
         status.config(fg='green', text="DONE!")
     else:
         os.system('oschmod 755 msipl_installer.py')
-        os.system(f'python3 .\\msipl_installer.py --pdisk {int(deviceID[var.get()[-1]])} --clear')
-        os.system(f'python3 .\\msipl_installer.py --pdisk {int(deviceID[var.get()[-1]])} --insert msipl.bin')
-        get_mountpoint = windows_disk_letter[var.get()] + "\\TM\\"
+        os.system(f'python .\\msipl_installer.py --pdisk {int(deviceID[var.get()][-1])} --clear')
+        os.system(f'python .\\msipl_installer.py --pdisk {int(deviceID[var.get()][-1])} --insert msipl.bin')
+        get_mountpoint = windows_disk_letter[var.get()] + ":\\TM\\"
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
-        shutil.copytree("TM", f"'{get_mountpoint}'", dirs_exist_ok=True)
+        shutil.copytree("TM", f"{get_mountpoint}", dirs_exist_ok=True)
         status.config(fg='green', text="DONE!")
 
     b['text'] = "DONE!"
