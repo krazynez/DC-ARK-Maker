@@ -130,8 +130,8 @@ def run() -> None:
         status.config(fg='green', text="DONE!")
     else:
         os.system('oschmod 755 msipl_installer.py')
-        os.system(f'python3 .\\msipl_installer.py --devname {deviceID[var.get()]} --clear')
-        os.system(f'python3 .\\msipl_installer.py --devname {deviceID[var.get()]} --insert msipl.bin')
+        os.system(f'python3 .\\msipl_installer.py --pdisk {deviceID[var.get()]} --clear')
+        os.system(f'python3 .\\msipl_installer.py --pdisk {deviceID[var.get()]} --insert msipl.bin')
         get_mountpoint = windows_disk_letter[var.get()] + "\\TM\\"
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
