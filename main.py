@@ -135,19 +135,15 @@ def run() -> None:
         time.sleep(2)
         #msipl_installer.main(msipl_installer.Args(f'{var.get()}', False, None, False, True ))
         msipl_installer.main(msipl_installer.Args(f'{var.get()}', False, 'msipl.bin', False, False ))
-        subprocess.run(['diskutil', 'mount', f'/dev/{var.get()}s1'])
-        subprocess.run(['sync'])
-        time.sleep(2)
-        get_mountpoint = subprocess.Popen("""mount | awk '/{var.get()}/ {{if ($4 != "type"){{print $3,$4}} else {{print $3}}}}'""", shell=True, stdout=subprocess.PIPE)
-        get_mountpoint = str(get_mountpoint.stdout.read().decode().rstrip()) + "/TM/"
+        subprocess.run(['diskutil', 'umountDisk', 'force', f'/dev/{var.get()}'])
+        subprocess.run(['mkdir', '/Volumes/__psp__'])
+        get_mountpoint = '/Volumes/__psp__'
+        copypoint = get_mountpoint + "/TM/"
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
-        shutil.copytree("TM", f"{get_mountpoint}", dirs_exist_ok=True)
-        #os.system('sync')
-        #os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --clear')
-        #os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert msipl.bin')
-        # device, info, insert, extract, clear
-        #os.system(f'sudo dd if=msipl.bin of=/dev/{var.get()} bs=512 seek=16')
+        subprocess.run(['mount', '-t', 'msdos', '-o', 'rw', f'/dev/{var.get()}s1', get_mountpoint])
+        shutil.copytree("TM", f"{copypoint}", dirs_exist_ok=True)
+        subprocess.run(['diskutil', 'umountDisk', 'force', f'/dev/{var.get()}'])
         status.config(fg='green', text="DONE!")
     else:
         get_mountpoint = windows_disk_letter[var.get()] + ":\\TM\\"
