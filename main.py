@@ -142,7 +142,7 @@ def run() -> None:
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
         shutil.copytree("TM", f"{get_mountpoint}", dirs_exist_ok=True)
-        subprocess.run(['diskutil', 'umountDisk', 'force', f'{diskID}'])
+        subprocess.run(['diskutil', 'umountDisk', 'force', f'/dev/{var.get()}'])
         subprocess.run(['sync'])
         time.sleep(2)
         os.system('oschmod 755 msipl_installer.py')
