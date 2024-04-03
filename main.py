@@ -44,7 +44,7 @@ elif platform.system().lower() == 'linux':
     for i in out:
         possible_drive.append(i)
 else:
-    out = subprocess.Popen(["diskutil list external | awk '/external/ { gsub(/\/dev\//, ""); print $1}'"], shell=True, stdout=subprocess.PIPE)
+    out = subprocess.Popen(["""diskutil list external | awk '/external/ { gsub(/\/dev\//, ""); print $1}'"""], shell=True, stdout=subprocess.PIPE)
     out = out.stdout.read().decode().splitlines()
     for i in out:
         possible_drive.append(i)
