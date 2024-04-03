@@ -137,8 +137,9 @@ def run() -> None:
         subprocess.run(['diskutil', 'umountDisk', 'force', f'/dev/{var.get()}'])
         subprocess.run(['sync'])
         time.sleep(2)
-        os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --clear')
-        os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert msipl.bin')
+        #os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --clear')
+        #os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert msipl.bin')
+        os.system(f'sudo dd if=msipl.bin of=/dev/{var.get()} bs=512 seek=16')
         status.config(fg='green', text="DONE!")
     else:
         get_mountpoint = windows_disk_letter[var.get()] + ":\\TM\\"
