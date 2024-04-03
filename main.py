@@ -25,6 +25,9 @@ m.title('DC-ARK Maker')
 var = tk.StringVar(m)
 var.set(possible_drive[0])
 
+#disk_check = tk.StringVar(m)
+#disk_check.set(0)
+
 if platform.system().lower() != 'linux' and platform.system().lower() != 'darwin':
     import wmi
     import psutil
@@ -48,6 +51,10 @@ else:
     out = out.stdout.read().decode().splitlines()
     for i in out:
         possible_drive.append(i)
+
+def refresh():
+    m.destroy()
+    os.execv(sys.argv[0], sys.argv)
 
 def cleanup() -> None:
     shutil.rmtree("661")
@@ -180,8 +187,16 @@ tk.Label(text="Select PSP/Memory Stick:", width=25).grid(row=0, column=0)
 status = tk.Label(fg='red', text="PLEASE VERIFY\nDISK BEFORE CONTINUING!", width=25)
 status.grid(row=1, column=0)
 
+#internal=tk.Checkbutton(m, text='Show Internal Disk', variable=disk_check, onvalue=1, offvalue=0)
+#internal.grid(row=3, column=1)
+
 b=tk.Button(m, text='Run', command=run)
 b.grid(row=1,column=1)
+r=tk.Button(m, text='Refresh', command=refresh)
+r.grid(row=3, column=0)
+
+
+
 x=tk.Button(m, text='Exit', command=m.destroy)
 x.grid(row=2,column=1)
 
