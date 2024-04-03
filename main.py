@@ -142,8 +142,8 @@ def run() -> None:
         #os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --clear')
         #os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert msipl.bin')
         # device, info, insert, extract, clear
-        msipl_installer.main(Args(f'{var.get()}', False, '', False, True ))
-        msipl_installer.main(Args(f'{var.get()}', False, 'msipl.bin', False, False ))
+        msipl_installer.main(msipl_installer.Args(f'{var.get()}', False, '', False, True ))
+        msipl_installer.main(msipl_installer.Args(f'{var.get()}', False, 'msipl.bin', False, False ))
         #os.system(f'sudo dd if=msipl.bin of=/dev/{var.get()} bs=512 seek=16')
         status.config(fg='green', text="DONE!")
     else:
