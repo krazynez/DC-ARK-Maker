@@ -35,7 +35,7 @@ if platform.system().lower() != 'linux' and platform.system().lower() != 'darwin
             deviceID[f'disk{str(drive.Index)}'] = drive.DeviceID
         for part in psutil.disk_partitions():
             if 'removable' in psutil.disk_partitions():
-                windows_disk_letter[f'disk{str(drive.Index)}'] = part.mountpoint.split(':')[0])
+                windows_disk_letter[f'disk{str(drive.Index)}'] = part.mountpoint.split(':')[0]
 
 
 elif platform.system().lower() == 'linux':
