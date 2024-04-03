@@ -131,7 +131,7 @@ def run() -> None:
         get_mountpoint = str(get_mountpoint.stdout.read().decode().rstrip()) + "/TM/"
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
-        shutil.copytree("TM", f"'{get_mountpoint}'", dirs_exist_ok=True)
+        shutil.copytree("TM", f"{get_mountpoint}", dirs_exist_ok=True)
         os.system('sync')
         os.system('oschmod 755 msipl_installer.py')
         subprocess.run(['diskutil', 'umountDisk', 'force', f'/dev/{var.get()}'])
@@ -139,7 +139,10 @@ def run() -> None:
         time.sleep(2)
         #os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --clear')
         #os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert msipl.bin')
-        os.system(f'sudo dd if=msipl.bin of=/dev/{var.get()} bs=512 seek=16')
+        # device, info, insert, extract, clear
+        msipl_installer.main(Args(f'{var.get()}', False, '', False, True ))
+        msipl_installer.main(Args(f'{var.get()}', False, 'msipl.bin', False, False ))
+        #os.system(f'sudo dd if=msipl.bin of=/dev/{var.get()} bs=512 seek=16')
         status.config(fg='green', text="DONE!")
     else:
         get_mountpoint = windows_disk_letter[var.get()] + ":\\TM\\"
