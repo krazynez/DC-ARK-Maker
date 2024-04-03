@@ -25,7 +25,7 @@
 
 * MeetPatty (DC-ARK)
 
-* Acid_Snake (for the idea/ARK-4 itself)
+* Acid_Snake (for the idea/ARK-4 itself/module version of msipl_installer)
 
 * John Kelley  (pspdecrypt)
 
@@ -33,4 +33,8 @@
 
 * Sony for providing 6.61 OFW files ( still ;-) ) 
 
-* Testers that are going to be helping me (will append when done)
+* CoffeeNomad for the initial MacOS command outputs to help me out.
+
+* Testers:
+
+    * Acid_Snake - MacOS (Intel/PPC) testing
