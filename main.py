@@ -129,7 +129,7 @@ def run() -> None:
         msipl_installer.main(msipl_installer.Args(f'{var.get()}', False, 'msipl.bin', False, False ))
         status.config(fg='green', text="DONE!")
     elif platform.system() == 'Darwin':
-        get_mountpoint = subprocess.Popen(f"mount | awk '/\/dev\/{var.get()}/ {{print $3}}'", shell=True, stdout=subprocess.PIPE)
+        get_mountpoint = subprocess.Popen("""mount | awk '/\/dev\/sda1/ {{if ($4 != "type"){{print $3,$4}} else {{print $3}}}}'""", shell=True, stdout=subprocess.PIPE)
         get_mountpoint = str(get_mountpoint.stdout.read().decode().rstrip()) + "/TM/"
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
