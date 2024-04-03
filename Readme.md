@@ -2,7 +2,15 @@
 
 ##### Setup
 
-##### Note: Working on Linux right now only!
+* ALL:
+
+    * python3 is required
+
+* MacOS:
+    
+    * `brew install openssl@1.1`
+
+##### Note: Working on Linux and Windows, MacOS is experimental
 
 ###### Need to run as root/admin
 

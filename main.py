@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import tkinter as tk
-import wget
 import platform
 import os
 import time
@@ -70,7 +69,9 @@ def run() -> None:
 
     # Download pspdecrypt from John
     if platform.system() == 'Linux':
-        wget.download('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-linux.zip')
+        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-linux.zip', verify=False)
+        with open('pspdecrypt-1.0-linux.zip', 'wb') as f:
+            f.write(resp.content)
         with ZipFile('pspdecrypt-1.0-linux.zip', 'r') as zObject:
             zObject.extractall(path=f'{os.getcwd()}/')
         os.system('oschmod 755 pspdecrypt')
@@ -96,8 +97,9 @@ def run() -> None:
         return
 
     # Download 6.61 OFW
-    wget.download('http://du01.psp.update.playstation.org/update/psp/image/us/2014_1212_6be8878f475ac5b1a499b95ab2f7d301/EBOOT.PBP')
-    os.rename('EBOOT.PBP', '661.PBP')
+    resp = requests.get('http://du01.psp.update.playstation.org/update/psp/image/us/2014_1212_6be8878f475ac5b1a499b95ab2f7d301/EBOOT.PBP', verify=False)
+    with open('661.PBP', 'wb') as f:
+        f.write(resp.content)
 
     if platform.system() == 'Linux' or platform.system() == 'Darwin':
         os.system('./pspdecrypt -e 661.PBP')
@@ -109,7 +111,9 @@ def run() -> None:
         shutil.copytree("661\\F1\\", "TM\\DCARK\\", dirs_exist_ok=True)
 
     # Download msipl_installer from Draan
-    wget.download('https://raw.githubusercontent.com/draanPSP/msipl_installer/main/msipl_installer.py')
+    resp = requests.get('https://raw.githubusercontent.com/draanPSP/msipl_installer/main/msipl_installer.py', verify=False)
+    with open('msipl_installer.py', 'wb') as f:
+        f.write(resp.content)
 
     if platform.system() == 'Linux':
         os.system('oschmod 755 msipl_installer.py')
