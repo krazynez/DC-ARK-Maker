@@ -84,7 +84,8 @@ def run() -> None:
         os.system('oschmod 755 pspdecrypt.exe')
         x['state'] = "normal"
     elif platform.system() == 'Darwin':
-        wget.download('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-macos.zip')
+        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-macos.zip')
+        with open('pspdecrypt-1.0-macos.zip', 'wb') as f:
         with ZipFile('pspdecrypt-1.0-macos.zip', 'r') as zObject:
             zObject.extractall(path=f'{os.getcwd()}/')
         os.system('oschmod 755 pspdecrypt')
