@@ -133,7 +133,7 @@ def run() -> None:
         subprocess.run(['diskutil', 'umountDisk', 'force', f'/dev/{var.get()}'])
         subprocess.run(['sync'])
         time.sleep(2)
-        msipl_installer.main(msipl_installer.Args(f'{var.get()}', False, None, False, True ))
+        #msipl_installer.main(msipl_installer.Args(f'{var.get()}', False, None, False, True ))
         msipl_installer.main(msipl_installer.Args(f'{var.get()}', False, 'msipl.bin', False, False ))
         subprocess.run(['diskutil', 'mount', f'/dev/{var.get()}s1'])
         subprocess.run(['sync'])
