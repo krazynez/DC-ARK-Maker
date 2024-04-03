@@ -9,6 +9,7 @@ import glob
 import requests
 import subprocess
 import shutil
+from msipl_installer import *
 from zipfile import ZipFile
 
 if platform.system().lower() != 'linux' and platform.system().lower() != 'windows' and platform.system().lower() != 'darwin':
