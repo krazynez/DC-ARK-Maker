@@ -110,40 +110,40 @@ def run() -> None:
         shutil.copytree("661\\F0\\", "TM\\DCARK\\", dirs_exist_ok=True)
         shutil.copytree("661\\F1\\", "TM\\DCARK\\", dirs_exist_ok=True)
 
-    # Download msipl_installer from Draan
-    resp = requests.get('https://raw.githubusercontent.com/draanPSP/msipl_installer/main/msipl_installer.py', verify=False)
+    # Download msipl_installer from Draan (forked for macOS support)
+    resp = requests.get('https://raw.githubusercontent.com/krazynez/msipl_installer/main/msipl_installer.py', verify=False)
     with open('msipl_installer.py', 'wb') as f:
         f.write(resp.content)
 
     if platform.system() == 'Linux':
-        os.system('oschmod 755 msipl_installer.py')
-        os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --clear')
-        os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert msipl.bin')
         disk = var.get() + '1'
         get_mountpoint = subprocess.Popen(f"lsblk | awk '/{disk}/ {{print $7}}'", shell=True, stdout=subprocess.PIPE)
         get_mountpoint = str(get_mountpoint.stdout.read().decode().rstrip()) + "/TM/"
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
         shutil.copytree("TM", get_mountpoint, dirs_exist_ok=True)
-        status.config(fg='green', text="DONE!")
-    elif platform.system() == 'Darwin':
         os.system('oschmod 755 msipl_installer.py')
         os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --clear')
         os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert msipl.bin')
+        status.config(fg='green', text="DONE!")
+    elif platform.system() == 'Darwin':
         get_mountpoint = subprocess.Popen(f"mount | awk '/\/dev\/{var.get()}/ {{print $3}}'", shell=True, stdout=subprocess.PIPE)
         get_mountpoint = str(get_mountpoint.stdout.read().decode().rstrip()) + "/TM/"
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
         shutil.copytree("TM", f"'{get_mountpoint}'", dirs_exist_ok=True)
+        os.system('oschmod 755 msipl_installer.py')
+        os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --clear')
+        os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert msipl.bin')
         status.config(fg='green', text="DONE!")
     else:
-        os.system('oschmod 755 msipl_installer.py')
-        os.system(f'python .\\msipl_installer.py --pdisk {int(deviceID[var.get()][-1])} --clear')
-        os.system(f'python .\\msipl_installer.py --pdisk {int(deviceID[var.get()][-1])} --insert msipl.bin')
         get_mountpoint = windows_disk_letter[var.get()] + ":\\TM\\"
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
         shutil.copytree("TM", f"{get_mountpoint}", dirs_exist_ok=True)
+        os.system('oschmod 755 msipl_installer.py')
+        os.system(f'python .\\msipl_installer.py --pdisk {int(deviceID[var.get()][-1])} --clear')
+        os.system(f'python .\\msipl_installer.py --pdisk {int(deviceID[var.get()][-1])} --insert msipl.bin')
         status.config(fg='green', text="DONE!")
 
     b['text'] = "DONE!"
