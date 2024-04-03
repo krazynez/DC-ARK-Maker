@@ -67,53 +67,10 @@ def run() -> None:
     x['state'] = "disabled"
     b['text'] = "Please Wait..."
 
-    # Download pspdecrypt from John
-    if platform.system() == 'Linux':
-        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-linux.zip', verify=False)
-        with open('pspdecrypt-1.0-linux.zip', 'wb') as f:
-            f.write(resp.content)
-        with ZipFile('pspdecrypt-1.0-linux.zip', 'r') as zObject:
-            zObject.extractall(path=f'{os.getcwd()}/')
-        os.system('oschmod 755 pspdecrypt')
-        x['state'] = "normal"
-    elif platform.system() == 'Windows':
-        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-windows.zip', verify=False)
-        with open('pspdecrypt-1.0-windows.zip', 'wb') as f:
-            f.write(resp.content)
-        with ZipFile('pspdecrypt-1.0-windows.zip', 'r') as zObject:
-            zObject.extractall(path=f'{os.getcwd()}\\')
-        os.system('oschmod 755 pspdecrypt.exe')
-        x['state'] = "normal"
-    elif platform.system() == 'Darwin':
-        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-macos.zip', verify=False)
-        with open('pspdecrypt-1.0-macos.zip', 'wb') as f:
-            f.write(resp.content)
-        with ZipFile('pspdecrypt-1.0-macos.zip', 'r') as zObject:
-            zObject.extractall(path=f'{os.getcwd()}/')
-        os.system('oschmod 755 pspdecrypt')
-        x['state'] = "normal"
-    else:
-        print('\nERR: unsupported platform...\n')
-        return
-
-    # Download 6.61 OFW
-    resp = requests.get('http://du01.psp.update.playstation.org/update/psp/image/us/2014_1212_6be8878f475ac5b1a499b95ab2f7d301/EBOOT.PBP', verify=False)
-    with open('661.PBP', 'wb') as f:
-        f.write(resp.content)
-
-    if platform.system() == 'Linux' or platform.system() == 'Darwin':
-        os.system('./pspdecrypt -e 661.PBP')
-        shutil.copytree("661/F0", "TM/DCARK", dirs_exist_ok=True)
-        shutil.copytree("661/F1", "TM/DCARK", dirs_exist_ok=True)
-    else:
-        os.system('.\\pspdecrypt.exe -e 661.PBP')
-        shutil.copytree("661\\F0\\", "TM\\DCARK\\", dirs_exist_ok=True)
-        shutil.copytree("661\\F1\\", "TM\\DCARK\\", dirs_exist_ok=True)
-
     # Download msipl_installer from Draan (forked for macOS support)
-    resp = requests.get('https://raw.githubusercontent.com/krazynez/msipl_installer/main/msipl_installer.py', verify=False)
-    with open('msipl_installer.py', 'wb') as f:
-        f.write(resp.content)
+    #resp = requests.get('https://raw.githubusercontent.com/krazynez/msipl_installer/main/msipl_installer.py', verify=False)
+    #with open('msipl_installer.py', 'wb') as f:
+        #f.write(resp.content)
 
     if platform.system() == 'Linux':
         disk = var.get() + '1'
@@ -158,7 +115,51 @@ def run() -> None:
         os.system(f'python .\\msipl_installer.py --pdisk {int(deviceID[var.get()][-1])} --insert msipl.bin')
         status.config(fg='green', text="DONE!")
 
-    b['text'] = "DONE!"
+
+    # Download pspdecrypt from John
+    if platform.system() == 'Linux':
+        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-linux.zip', verify=False)
+        with open('pspdecrypt-1.0-linux.zip', 'wb') as f:
+            f.write(resp.content)
+        with ZipFile('pspdecrypt-1.0-linux.zip', 'r') as zObject:
+            zObject.extractall(path=f'{os.getcwd()}/')
+        os.system('oschmod 755 pspdecrypt')
+        x['state'] = "normal"
+    elif platform.system() == 'Windows':
+        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-windows.zip', verify=False)
+        with open('pspdecrypt-1.0-windows.zip', 'wb') as f:
+            f.write(resp.content)
+        with ZipFile('pspdecrypt-1.0-windows.zip', 'r') as zObject:
+            zObject.extractall(path=f'{os.getcwd()}\\')
+        os.system('oschmod 755 pspdecrypt.exe')
+        x['state'] = "normal"
+    elif platform.system() == 'Darwin':
+        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-macos.zip', verify=False)
+        with open('pspdecrypt-1.0-macos.zip', 'wb') as f:
+            f.write(resp.content)
+        with ZipFile('pspdecrypt-1.0-macos.zip', 'r') as zObject:
+            zObject.extractall(path=f'{os.getcwd()}/')
+        os.system('oschmod 755 pspdecrypt')
+        x['state'] = "normal"
+    else:
+        print('\nERR: unsupported platform...\n')
+        return
+
+    # Download 6.61 OFW
+    resp = requests.get('http://du01.psp.update.playstation.org/update/psp/image/us/2014_1212_6be8878f475ac5b1a499b95ab2f7d301/EBOOT.PBP', verify=False)
+    with open('661.PBP', 'wb') as f:
+        f.write(resp.content)
+
+    if platform.system() == 'Linux' or platform.system() == 'Darwin':
+        os.system('./pspdecrypt -e 661.PBP')
+        shutil.copytree("661/F0", "TM/DCARK", dirs_exist_ok=True)
+        shutil.copytree("661/F1", "TM/DCARK", dirs_exist_ok=True)
+    else:
+        os.system('.\\pspdecrypt.exe -e 661.PBP')
+        shutil.copytree("661\\F0\\", "TM\\DCARK\\", dirs_exist_ok=True)
+        shutil.copytree("661\\F1\\", "TM\\DCARK\\", dirs_exist_ok=True)
+
+        b['text'] = "DONE!"
     x['state'] = "normal"
 
     cleanup()
