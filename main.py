@@ -76,7 +76,7 @@ def run() -> None:
         os.system('oschmod 755 pspdecrypt')
         x['state'] = "normal"
     elif platform.system() == 'Windows':
-        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-windows.zip')
+        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-windows.zip', verify=False)
         with open('pspdecrypt-1.0-windows.zip', 'wb') as f:
             f.write(resp.content)
         with ZipFile('pspdecrypt-1.0-windows.zip', 'r') as zObject:
@@ -84,7 +84,7 @@ def run() -> None:
         os.system('oschmod 755 pspdecrypt.exe')
         x['state'] = "normal"
     elif platform.system() == 'Darwin':
-        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-macos.zip')
+        resp = requests.get('https://github.com/John-K/pspdecrypt/releases/download/1.0/pspdecrypt-1.0-macos.zip', verify=False)
         with open('pspdecrypt-1.0-macos.zip', 'wb') as f:
             f.write(resp.content)
         with ZipFile('pspdecrypt-1.0-macos.zip', 'r') as zObject:
