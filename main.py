@@ -9,7 +9,7 @@ import glob
 import requests
 import subprocess
 import shutil
-from msipl_installer import *
+import msipl_installer
 from zipfile import ZipFile
 
 if platform.system().lower() != 'linux' and platform.system().lower() != 'windows' and platform.system().lower() != 'darwin':
@@ -53,7 +53,6 @@ def cleanup() -> None:
     shutil.rmtree("661")
     os.remove('661.PBP')
     os.remove('661.PBP.dec')
-    os.remove('msipl_installer.py')
     for f in glob.glob("pspdecrypt*"):
         os.remove(f)
 
@@ -123,9 +122,11 @@ def run() -> None:
         status.config(text="COPYING PLEASE WAIT!")
         m.update()
         shutil.copytree("TM", get_mountpoint, dirs_exist_ok=True)
-        os.system('oschmod 755 msipl_installer.py')
-        os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --clear')
-        os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert msipl.bin')
+        #os.system('oschmod 755 msipl_installer.py')
+        #os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --clear')
+        #os.system(f'sudo python3 ./msipl_installer.py --devname {var.get()} --insert msipl.bin')
+        msipl_installer.main(msipl_installer.Args(f'{var.get()}', False, '', False, True ))
+        msipl_installer.main(msipl_installer.Args(f'{var.get()}', False, 'msipl.bin', False, False ))
         status.config(fg='green', text="DONE!")
     elif platform.system() == 'Darwin':
         get_mountpoint = subprocess.Popen(f"mount | awk '/\/dev\/{var.get()}/ {{print $3}}'", shell=True, stdout=subprocess.PIPE)
