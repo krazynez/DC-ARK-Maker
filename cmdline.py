@@ -16,15 +16,15 @@ def main():
         if sys.argv[1].endswith('1'):
             print(f'ERR: you need to specify just the disk not partition\n\nEX: {sys.argv[0]} sdc\n')
             sys.exit(1)
+        print('Clearing IPL')
+        msipl_installer.main(msipl_installer.Args(f'{sys.argv[1]}', False, None, False, True ))
+        print('Writing IPL')
+        msipl_installer.main(msipl_installer.Args(f'{sys.argv[1]}', False, 'msipl.bin', False, False ))
         disk = sys.argv[1] + '1'
         get_mountpoint = subprocess.Popen(f"lsblk | awk '/{disk}/ {{print $7}}'", shell=True, stdout=subprocess.PIPE)
         get_mountpoint = str(get_mountpoint.stdout.read().decode().rstrip()) + "/TM/"
         print('Copying TM Folder')
         shutil.copytree("TM", get_mountpoint, dirs_exist_ok=True)
-        print('Clearing IPL')
-        msipl_installer.main(msipl_installer.Args(f'{sys.argv[1]}', False, None, False, True ))
-        print('Writing IPL')
-        msipl_installer.main(msipl_installer.Args(f'{sys.argv[1]}', False, 'msipl.bin', False, False ))
     elif platform.system() == 'Darwin':
         subprocess.run(['diskutil', 'umountDisk', 'force', f'/dev/{sys.argv[1]}'])
         subprocess.run(['sync'])
@@ -56,12 +56,12 @@ def main():
 
 
         get_mountpoint = windows_disk_letter[sys.argv[1]] + ":\\TM\\"
-        print('Copying TM Folder')
-        shutil.copytree("TM", f"{get_mountpoint}", dirs_exist_ok=True)
         print('Clearing IPL')
         msipl_installer.main(msipl_installer.Args(f'{int(deviceID[sys.argv[1]][-1])}', False, None, False, True ))
         print('Writing IPL')
         msipl_installer.main(msipl_installer.Args(f'{int(deviceID[sys.argv[1]][-1])}', False, 'msipl.bin', False, False ))
+        print('Copying TM Folder')
+        shutil.copytree("TM", f"{get_mountpoint}", dirs_exist_ok=True)
 
 if __name__ == '__main__':
     main()
