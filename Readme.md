@@ -14,9 +14,11 @@
 
 ###### Need to run as root/admin
 
-* `pip install -r requirements.txt`
+* `pip install -r requirements.txt` (gui version only)
 
-* `./main.py`
+* `./gui.py` for GUI version
+
+* `./cmdline.py` for CLI version
 
 * choose your drive wisely....
 
