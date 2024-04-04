@@ -59,9 +59,9 @@ def main():
         print('Copying TM Folder')
         shutil.copytree("TM", f"{get_mountpoint}", dirs_exist_ok=True)
         print('Clearing IPL')
-        msipl_installer.main(msipl_installer.Args(f'{int(deviceID[sys.argv[1]][-1]}', False, None, False, True ))
+        msipl_installer.main(msipl_installer.Args(f'{int(deviceID[sys.argv[1]][-1])}', False, None, False, True ))
         print('Writing IPL')
-        msipl_installer.main(msipl_installer.Args(f'{int(deviceID[sys.argv[1]][-1]}', False, 'msipl.bin', False, False ))
+        msipl_installer.main(msipl_installer.Args(f'{int(deviceID[sys.argv[1]][-1])}', False, 'msipl.bin', False, False ))
 
 if __name__ == '__main__':
     main()
