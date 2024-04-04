@@ -32,7 +32,6 @@ def main():
         get_mountpoint = '/Volumes/__psp__'
         copypoint = get_mountpoint + "/TM/"
         status.config(text="COPYING PLEASE WAIT!")
-        m.update()
         subprocess.run(['mount', '-t', 'msdos', '-o', 'rw', f'/dev/{sys.argv[1]}s1', get_mountpoint])
         shutil.copytree("TM", f"{copypoint}", dirs_exist_ok=True)
         subprocess.run(['diskutil', 'umountDisk', 'force', f'/dev/{sys.argv[1]}'])
@@ -40,7 +39,6 @@ def main():
     else:
         get_mountpoint = windows_disk_letter[sys.argv[1]] + ":\\TM\\"
         status.config(text="COPYING PLEASE WAIT!")
-        m.update()
         shutil.copytree("TM", f"{get_mountpoint}", dirs_exist_ok=True)
         os.system('oschmod 755 msipl_installer.py')
         os.system(f'python .\\msipl_installer.py --pdisk {int(deviceID[sys.argv[1]][-1])} --clear')
